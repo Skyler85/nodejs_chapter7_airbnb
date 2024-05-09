@@ -185,7 +185,7 @@ const PlacesFormPage = () => {
           setAddedPhotos={setAddedPhotos}
         />
 
-        {preInput('Description', 'discription of the place')}
+        {preInput('Description', 'description of the place')}
         <textarea
           value={description}
           name="description"

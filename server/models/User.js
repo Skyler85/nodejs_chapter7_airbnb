@@ -17,7 +17,6 @@ userSchema.pre('save', async function (next) {
 
 // 로그인 하려고 하는 password의 값과 DB에 저장된 password를 비교
 userSchema.methods.isValidatedPassword = async function(userSentPassword) {
-    console.log(userSentPassword);
     return await bcrypt.compare(userSentPassword, this.password)
 }
 

@@ -1,6 +1,6 @@
 const User = require('../models/User');
 const cookieToken = require('../utils/cookieToken');
-// const cloudinary = require('cloudinary').v2;
+const cloudinary = require('cloudinary').v2;
 
 exports.register = async (req, res) => {
     try {
@@ -34,7 +34,6 @@ exports.register = async (req, res) => {
 }
 
 exports.login = async (req, res) => {
-    console.log(req.body)
     try {
         const { email, password } = req.body;
 
@@ -65,6 +64,62 @@ exports.login = async (req, res) => {
         res.status(500).json({
             message: "Internal server error",
             error: error,
+        })
+    }
+}
+
+exports.updateUserDetails = async (req, res) => {
+    try {
+        const { name, password, email, picture } = req.body;
+
+        const user = await User.findOne({email});
+
+        if(!user) {
+            return res.status(400).json({
+                message: 'User Not found'
+            })
+        }
+        user.name = name;
+        if(picture && !password) {
+            user.picture = picture;
+        } else if(password && !picture) {
+            user.password = password;
+        } else if(password && picture) {
+            user.password = password;
+            user.picture = picture;
+        }
+        const updateUser = await user.save();
+        cookieToken(updateUser, res)
+    } catch (error) {
+        res.status(500).json({
+            message: "Internal Server Error",
+            error
+        })
+    }
+}
+
+exports.logout = async (req, res) => {
+    res.status(200).cookie('token', null, {
+        expires: new Date(Date.now()),
+        httpOnly: true,
+        sameSite: 'none'
+    }).json({
+        success: true,
+        message: 'Logged Out'
+    })
+}
+
+exports.uploadPicture = async (req, res) => {
+    const {path} = req.file
+    try {
+        let result = await cloudinary.uploader.upload(path, {
+            folder: "Airbnb/Users"
+        })
+        res.status(200).json(result.secure_url)
+    } catch (error) {
+        res.status(500).json({
+            message: "Internal Server Error",
+            error
         })
     }
 }

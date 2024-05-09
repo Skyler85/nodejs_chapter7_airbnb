@@ -28,6 +28,6 @@ router.post('/upload', upload.array('photos', 100), async (req, res) => {
 
 router.use('/user', require('./user'));
 router.use('/places', require('./place'));
-router.use('/booking', require('./booking'));
+router.use('/bookings', require('./booking'));
 
 module.exports = router;

@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 exports.isLoggedIn = async (req, res, next) => {
-    console.log('미들웨어지나감')
 
     const token = req.cookies.token || req.header('Authorization').replace('Bearer ','');
 
