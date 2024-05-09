@@ -4,7 +4,7 @@ import Image from './Image';
 import axiosInstance from '../../utils/axios';
 
 const PhotosUploader = ({ addedPhotos, setAddedPhotos }) => {
-  const [photoLink, setphotoLink] = useState('');
+  const [photoLink, setPhotoLink] = useState('');
 
   const addPhotoByLink = async (e) => {
     e.preventDefault();
@@ -14,7 +14,7 @@ const PhotosUploader = ({ addedPhotos, setAddedPhotos }) => {
     setAddedPhotos((prev) => {
       return [...prev, filename];
     });
-    setphotoLink('');
+    setPhotoLink('');
   };
 
   const uploadPhoto = async (e) => {
@@ -49,7 +49,7 @@ const PhotosUploader = ({ addedPhotos, setAddedPhotos }) => {
       <div className="flex gap-2">
         <input
           value={photoLink}
-          onChange={(e) => setphotoLink(e.target.value)}
+          onChange={(e) => setPhotoLink(e.target.value)}
           type="text"
           placeholder="Add using a link ...jpg"
         />
